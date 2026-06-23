@@ -1,29 +1,45 @@
 package com.media.entity;
+
 import jakarta.persistence.*;
 import lombok.*;
+
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
-@Table(name="authors")
+@Table(name = "authors")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-
 public class Author {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private  String fullName;
-    @Column(unique = true)
+
+    @Column(nullable = false)
+    private String fullName;
+
+    @Column(nullable = false, unique = true)
     private String username;
-    @Column(unique = true)
-    private  String email;
+
+    @Column(nullable = false, unique = true)
+    private String email;
+
     @Column(columnDefinition = "TEXT")
     private String bio;
+
+    @Column(nullable = false)
     private LocalDateTime createdAt;
-    @OneToMany(mappedBy = "createdBy")
-    private List<Post> post;
+
+    @OneToMany(mappedBy = "createdBy", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Post> posts;
+
+    @PrePersist
+    public void prePersist() {
+        if (createdAt == null) {
+            createdAt = LocalDateTime.now();
+        }
+    }
 }

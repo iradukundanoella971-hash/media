@@ -2,7 +2,6 @@ package com.media.service;
 
 import com.media.dto.CreatePostRequest;
 import com.media.dto.PostResponse;
-import com.media.entity.Post;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -10,10 +9,10 @@ import java.util.List;
 public interface PostService {
 
     PostResponse createPost(CreatePostRequest request);
-    List<Post> getAllPosts();
-    Post getPostById(Long id);
-    List<Post> getPostsByAuthor(Long authorId);
-    Post updatePost(
+    List<PostResponse> getAllPosts();
+    PostResponse getPostById(Long id);
+    List<PostResponse> getPostsByAuthor(Long authorId);
+    PostResponse updatePost(
             Long id,
             CreatePostRequest request);
 
